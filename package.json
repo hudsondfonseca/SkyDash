@@ -1,0 +1,20 @@
+{
+  "name": "flappy-space-shooter",
+  "version": "1.0.0",
+  "description": "Jogo arcade 2D estilo Jetpack Joyride com nave, disparos e visual cartoon.",
+  "main": "game.js",
+  "scripts": {
+    "dev": "npx -y http-server -p 8080 -o"
+  },
+  "keywords": [
+    "game",
+    "flappy",
+    "space",
+    "shooter",
+    "canvas",
+    "arcade",
+    "cartoon"
+  ],
+  "author": "",
+  "license": "ISC"
+}

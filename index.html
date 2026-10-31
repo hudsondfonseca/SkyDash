@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Dash - Endless Space Runner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=6">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Container do Jogo (Mantém proporção e telas) -->
+        <div id="game-container">
+            <canvas id="game-canvas"></canvas>
+
+            <!-- HUD (Interface de Jogo) -->
+            <div id="hud" class="hidden">
+                <div class="hud-left">
+                    <div class="hud-stat">
+                        <span class="hud-label">INTEGRIDADE</span>
+                        <div class="bar-container">
+                            <div id="hp-bar" class="bar hp-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="hud-stat">
+                        <span class="hud-label">ESCUDO</span>
+                        <div class="bar-container">
+                            <div id="shield-bar" class="bar shield-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="hud-stat">
+                        <span class="hud-label">ARMA</span>
+                        <span id="weapon-name-val" class="weapon-name-val">Blaster Padrão</span>
+                    </div>
+                </div>
+                
+                <div class="hud-center">
+                    <div id="combo-display" class="hidden">MULTIPLIER <span id="combo-value">x1</span></div>
+                </div>
+
+                <div class="hud-right">
+                    <div class="hud-stat-num">
+                        <span class="hud-label">SCORE</span>
+                        <span id="score-val" class="hud-number">000000</span>
+                    </div>
+                    <div class="hud-stat-num">
+                        <span class="hud-label">RECORD</span>
+                        <span id="highscore-val" class="hud-number">000000</span>
+                    </div>
+                </div>
+
+                <!-- Notificações de Power-up Ativos -->
+                <div id="powerup-indicator-container"></div>
+            </div>
+
+            <!-- Barra de Vida do Chefe (Boss HP) -->
+            <div id="boss-health-container" class="hidden">
+                <div class="boss-title">FLAGSHIP ALIENÍGENA IDENTIFICADA</div>
+                <div class="boss-bar-container">
+                    <div id="boss-hp-bar" class="boss-hp-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <!-- Tela de Início -->
+            <div id="start-screen" class="overlay-screen active">
+                <div class="neon-title-container">
+                    <h1 class="neon-title">SKY DASH</h1>
+                    <p class="neon-subtitle">ENDLESS SPACE RUNNER • PIXEL EDITION</p>
+                </div>
+
+                <div class="menu-buttons">
+                    <button id="btn-start" class="btn btn-primary btn-glow">INICIAR MISSÃO</button>
+                    <button id="btn-shop-open" class="btn btn-secondary btn-purple-glow">MELHORIAS DA NAVE</button>
+                    <button id="btn-settings-open" class="btn btn-secondary">CONFIGURAÇÕES</button>
+                </div>
+
+                <div class="high-score-board">
+                    <span>RECORDE ATUAL:</span>
+                    <span id="menu-highscore" class="neon-text-green">0</span>
+                </div>
+
+                <div class="loot-hint">
+                    ⬡ Destrua inimigos e asteroides para encontrar <strong>armas hexagonais</strong> — cada uma muda seu tiro, dano e cadência!
+                </div>
+
+                <button id="btn-controls-open" class="controls-menu-link" type="button">
+                    <span class="controller-icon" aria-hidden="true">🎮</span>
+                    <span><strong>CONTROLES</strong><small>Ver e personalizar teclas</small></span>
+                    <span class="controls-arrow" aria-hidden="true">›</span>
+                </button>
+            </div>
+
+            <div id="controls-screen" class="overlay-screen hidden">
+                <h2 class="neon-heading">CONFIGURAR CONTROLES</h2>
+                <p class="controls-screen-hint">Clique em uma tecla e pressione a nova tecla desejada.</p>
+                <div class="key-bindings">
+                    <div class="key-binding"><span>Mover para cima</span><button class="key-bind" data-action="up">W</button></div>
+                    <div class="key-binding"><span>Mover para baixo</span><button class="key-bind" data-action="down">S</button></div>
+                    <div class="key-binding"><span>Mover à esquerda</span><button class="key-bind" data-action="left">A</button></div>
+                    <div class="key-binding"><span>Mover à direita</span><button class="key-bind" data-action="right">D</button></div>
+                    <div class="key-binding"><span>Disparo manual</span><button class="key-bind" data-action="fire">F</button></div>
+                </div>
+                <button id="btn-controls-reset" class="btn btn-secondary" type="button">RESTAURAR PADRÃO</button>
+                <button id="btn-controls-back" class="btn btn-primary" type="button">VOLTAR AO MENU</button>
+            </div>
+
+            <!-- Tela de Configurações -->
+            <div id="settings-screen" class="overlay-screen hidden">
+                <h2 class="neon-heading">CENTRAL DE COMANDO</h2>
+                
+                <div class="settings-list">
+                    <div class="setting-row">
+                        <label for="setting-autofire">Disparo Automático</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="setting-autofire" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-row">
+                        <label for="setting-sound">Efeitos Sonoros</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="setting-sound" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+
+                    <div class="setting-row">
+                        <label for="setting-difficulty">Nível de Ameaça (Dificuldade)</label>
+                        <select id="setting-difficulty" class="neon-select">
+                            <option value="easy">Cadete (Fácil)</option>
+                            <option value="normal" selected>Piloto (Normal)</option>
+                            <option value="hard">As da Galáxia (Difícil)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="btn-settings-close" class="btn btn-secondary">SALVAR & VOLTAR</button>
+            </div>
+
+            <!-- Tela de Loja de Melhorias (Rogue-lite Shop) -->
+            <div id="shop-screen" class="overlay-screen hidden">
+                <h2 class="neon-heading neon-purple-glow">UPGRADES DA FROTA</h2>
+                
+                <div class="shop-credits-display">
+                    CRÉDITOS DISPONÍVEIS: <span id="shop-credits-val" class="neon-text-green">0</span> ⬘
+                </div>
+
+                <div class="shop-grid">
+                    <!-- Upgrade 1: HP -->
+                    <div class="shop-card">
+                        <div class="shop-card-info">
+                            <span class="upgrade-name">INTEGRIDADE DO CASCO</span>
+                            <span class="upgrade-desc">Aumenta vida máxima (+10 HP)</span>
+                        </div>
+                        <div class="upgrade-levels" id="upg-hp-levels">
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                        </div>
+                        <button class="btn btn-primary btn-shop" id="btn-buy-hp">MELHORAR <br><span class="price-val" id="price-hp">15</span> CR</button>
+                    </div>
+
+                    <!-- Upgrade 2: Escudo -->
+                    <div class="shop-card">
+                        <div class="shop-card-info">
+                            <span class="upgrade-name">BATERIAS DE ESCUDO</span>
+                            <span class="upgrade-desc">Aumenta escudo máximo (+20 Shield)</span>
+                        </div>
+                        <div class="upgrade-levels" id="upg-shield-levels">
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                        </div>
+                        <button class="btn btn-primary btn-shop" id="btn-buy-shield">MELHORAR <br><span class="price-val" id="price-shield">15</span> CR</button>
+                    </div>
+
+                    <!-- Upgrade 3: Cadência de Tiro -->
+                    <div class="shop-card">
+                        <div class="shop-card-info">
+                            <span class="upgrade-name">CADÊNCIA DE DISPARO</span>
+                            <span class="upgrade-desc">Reduz tempo de recarga de armas</span>
+                        </div>
+                        <div class="upgrade-levels" id="upg-firerate-levels">
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                        </div>
+                        <button class="btn btn-primary btn-shop" id="btn-buy-firerate">MELHORAR <br><span class="price-val" id="price-firerate">20</span> CR</button>
+                    </div>
+
+                    <!-- Upgrade 4: Regen de Escudo -->
+                    <div class="shop-card">
+                        <div class="shop-card-info">
+                            <span class="upgrade-name">REGENERAÇÃO DE ESCUDO</span>
+                            <span class="upgrade-desc">Regeneração passiva de escudo mais rápida</span>
+                        </div>
+                        <div class="upgrade-levels" id="upg-regen-levels">
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                            <div class="level-box"></div>
+                        </div>
+                        <button class="btn btn-primary btn-shop" id="btn-buy-regen">MELHORAR <br><span class="price-val" id="price-regen">25</span> CR</button>
+                    </div>
+                </div>
+
+                <button id="btn-shop-close" class="btn btn-secondary">SALVAR & RETORNAR</button>
+            </div>
+
+            <!-- Tela de Pausa -->
+            <div id="pause-screen" class="overlay-screen hidden">
+                <h2 class="neon-heading neon-orange-glow">SISTEMAS EM ESPERA</h2>
+                <p class="pause-subtitle">TRANSMISSÃO PAUSADA</p>
+                
+                <div class="menu-buttons">
+                    <button id="btn-resume" class="btn btn-primary">RETOMAR</button>
+                    <button id="btn-restart-pause" class="btn btn-secondary">REINICIAR</button>
+                    <button id="btn-quit" class="btn btn-danger">RETORNAR AO MENU</button>
+                </div>
+            </div>
+
+            <!-- Tela de Game Over -->
+            <div id="game-over-screen" class="overlay-screen hidden">
+                <h2 class="neon-heading neon-red-glow">NAVE DESTRUÍDA</h2>
+                <p class="game-over-subtitle">FIM DE TRANSMISSÃO</p>
+
+                <div class="stats-panel">
+                    <div class="stat-line">
+                        <span>Pontuação Final:</span>
+                        <span id="final-score" class="stat-value neon-text-blue">0</span>
+                    </div>
+                    <div class="stat-line">
+                        <span>Inimigos Abatidos:</span>
+                        <span id="final-kills" class="stat-value neon-text-pink">0</span>
+                    </div>
+                    <div class="stat-line">
+                        <span>Asteroides Explodidos:</span>
+                        <span id="final-asteroids" class="stat-value neon-text-orange">0</span>
+                    </div>
+                    <div class="stat-line">
+                        <span>Tempo de Voo:</span>
+                        <span id="final-time" class="stat-value">0s</span>
+                    </div>
+                </div>
+
+                <div class="menu-buttons">
+                    <button id="btn-restart" class="btn btn-primary btn-glow btn-red">DECOLAR NOVAMENTE</button>
+                    <button id="btn-menu-go" class="btn btn-secondary">MENU PRINCIPAL</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts do Jogo -->
+    <script src="sound.js?v=6"></script>
+    <script src="background.js?v=1"></script>
+    <script src="sprite-renderer.js?v=1"></script>
+    <script src="entities.js?v=6"></script>
+    <script src="game.js?v=6"></script>
+</body>
+</html>
