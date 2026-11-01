@@ -2,6 +2,13 @@
 
 Jogo arcade 2D de exploração espacial, feito com JavaScript, HTML, CSS e Canvas. Controle uma nave, desvie de perigos, destrua inimigos e chefes, colete créditos e melhore sua frota.
 
+## Clonar o repositório
+
+```bash
+git clone https://github.com/hudsondfonseca/SkyDash.git
+cd SkyDash
+```
+
 ## Requisitos
 
 - Node.js 18 ou superior
