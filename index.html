@@ -13,7 +13,7 @@
     <div id="app-container">
         <!-- Container do Jogo (Mantém proporção e telas) -->
         <div id="game-container">
-            <canvas id="game-canvas"></canvas>
+            <canvas id="game-canvas" role="img" aria-label="Área de jogo espacial. Use as teclas configuradas ou o ponteiro para controlar a nave." tabindex="0"></canvas>
 
             <!-- HUD (Interface de Jogo) -->
             <div id="hud" class="hidden">
@@ -64,9 +64,9 @@
             </div>
 
             <!-- Tela de Início -->
-            <div id="start-screen" class="overlay-screen active">
+            <div id="start-screen" class="overlay-screen active" role="dialog" aria-modal="true" aria-labelledby="start-title">
                 <div class="neon-title-container">
-                    <h1 class="neon-title">SKY DASH</h1>
+                    <h1 id="start-title" class="neon-title">SKY DASH</h1>
                     <p class="neon-subtitle">ENDLESS SPACE RUNNER • PIXEL EDITION</p>
                 </div>
 
@@ -92,8 +92,8 @@
                 </button>
             </div>
 
-            <div id="controls-screen" class="overlay-screen hidden">
-                <h2 class="neon-heading">CONFIGURAR CONTROLES</h2>
+            <div id="controls-screen" class="overlay-screen hidden" role="dialog" aria-modal="true" aria-labelledby="controls-title">
+                <h2 id="controls-title" class="neon-heading">CONFIGURAR CONTROLES</h2>
                 <p class="controls-screen-hint">Clique em uma tecla e pressione a nova tecla desejada.</p>
                 <div class="key-bindings">
                     <div class="key-binding"><span>Mover para cima</span><button class="key-bind" data-action="up">W</button></div>
@@ -107,8 +107,8 @@
             </div>
 
             <!-- Tela de Configurações -->
-            <div id="settings-screen" class="overlay-screen hidden">
-                <h2 class="neon-heading">CENTRAL DE COMANDO</h2>
+            <div id="settings-screen" class="overlay-screen hidden" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+                <h2 id="settings-title" class="neon-heading">CENTRAL DE COMANDO</h2>
                 
                 <div class="settings-list">
                     <div class="setting-row">
@@ -141,8 +141,8 @@
             </div>
 
             <!-- Tela de Loja de Melhorias (Rogue-lite Shop) -->
-            <div id="shop-screen" class="overlay-screen hidden">
-                <h2 class="neon-heading neon-purple-glow">UPGRADES DA FROTA</h2>
+            <div id="shop-screen" class="overlay-screen hidden" role="dialog" aria-modal="true" aria-labelledby="shop-title">
+                <h2 id="shop-title" class="neon-heading neon-purple-glow">UPGRADES DA FROTA</h2>
                 
                 <div class="shop-credits-display">
                     CRÉDITOS DISPONÍVEIS: <span id="shop-credits-val" class="neon-text-green">0</span> ⬘
@@ -218,8 +218,8 @@
             </div>
 
             <!-- Tela de Pausa -->
-            <div id="pause-screen" class="overlay-screen hidden">
-                <h2 class="neon-heading neon-orange-glow">SISTEMAS EM ESPERA</h2>
+            <div id="pause-screen" class="overlay-screen hidden" role="dialog" aria-modal="true" aria-labelledby="pause-title">
+                <h2 id="pause-title" class="neon-heading neon-orange-glow">SISTEMAS EM ESPERA</h2>
                 <p class="pause-subtitle">TRANSMISSÃO PAUSADA</p>
                 
                 <div class="menu-buttons">
@@ -230,8 +230,8 @@
             </div>
 
             <!-- Tela de Game Over -->
-            <div id="game-over-screen" class="overlay-screen hidden">
-                <h2 class="neon-heading neon-red-glow">NAVE DESTRUÍDA</h2>
+            <div id="game-over-screen" class="overlay-screen hidden" role="dialog" aria-modal="true" aria-labelledby="game-over-title">
+                <h2 id="game-over-title" class="neon-heading neon-red-glow">NAVE DESTRUÍDA</h2>
                 <p class="game-over-subtitle">FIM DE TRANSMISSÃO</p>
 
                 <div class="stats-panel">
@@ -263,9 +263,13 @@
 
     <!-- Scripts do Jogo -->
     <script src="sound.js?v=6"></script>
+    <script src="game-clock.js?v=1"></script>
     <script src="background.js?v=1"></script>
     <script src="sprite-renderer.js?v=1"></script>
     <script src="entities.js?v=6"></script>
+    <script src="game-input.js?v=1"></script>
+    <script src="game-accessibility.js?v=1"></script>
     <script src="game.js?v=6"></script>
+    <script src="game-ui.js?v=1"></script>
 </body>
 </html>

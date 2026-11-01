@@ -1,9 +1,22 @@
 {
-  "pixelSize": 4,
+  "pixelSize": 3,
+  "referenceWidth": 960,
+  "referenceHeight": 540,
   "layers": {
-    "stars": { "enabled": true, "parallax": 0.05, "count": 170, "size": [1, 3], "seed": 124 },
-    "nebulae": { "enabled": true, "parallax": 0.12, "scale": 1, "seed": 421 },
-    "planets": { "enabled": true, "parallax": 0.2, "scale": 1, "items": [{ "x": 0.16, "y": 0.47, "radius": 76, "color": "#147ddd" }, { "x": 0.78, "y": 0.17, "radius": 42, "color": "#f0a8a1" }, { "x": 0.93, "y": 0.8, "radius": 64, "color": "#a348d0" }] },
-    "asteroids": { "enabled": true, "parallax": 0.65, "scale": 1, "count": 20, "seed": 922 }
+    "farStars": { "enabled": true, "parallax": 0.025, "count": 190, "seed": 81 },
+    "nebulae": { "enabled": true, "parallax": 0.07, "seed": 421, "clusters": 118 },
+    "nearStars": { "enabled": true, "parallax": 0.12, "count": 72, "seed": 612 },
+    "planets": {
+      "enabled": true,
+      "parallax": 0.19,
+      "scale": 1,
+      "items": [
+        { "x": 0.075, "y": 0.16, "radius": 74, "palette": "ocean" },
+        { "x": 0.79, "y": 0.16, "radius": 48, "palette": "ember" },
+        { "x": 0.94, "y": 0.83, "radius": 67, "palette": "violet" }
+      ]
+    },
+    "asteroids": { "enabled": true, "parallax": 0.42, "scale": 1, "count": 13, "seed": 922 },
+    "particles": { "enabled": true, "parallax": 0.2, "count": 32, "seed": 333 }
   }
 }

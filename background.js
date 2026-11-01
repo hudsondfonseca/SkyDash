@@ -61,6 +61,9 @@ class PixelSpaceBackground {
         if (path === 'layers.particles.count' || path === 'layers.particles.seed') this.dust = this.makeDust();
         if (path.startsWith('layers.nebulae.')) this.bakeNebulae();
     }
+    update(delta = 1) {
+        this.distance += delta * 1.25;
+    }
     px(ctx, x, y, w, h, color, p) {
         ctx.fillStyle = color;
         ctx.fillRect(Math.round(x / p) * p, Math.round(y / p) * p, Math.max(p, Math.round(w / p) * p), Math.max(p, Math.round(h / p) * p));
@@ -139,9 +142,8 @@ class PixelSpaceBackground {
             this.px(ctx,x+r*.2,y+r*.3,r*.28,r*.18,col[0],p);
         }
     }
-    draw(ctx, w, h, delta = 1) {
+    draw(ctx, w, h) {
         const p = this.config.pixelSize, layers = this.config.layers;
-        this.distance += delta * 1.25;
         ctx.fillStyle = '#050617'; ctx.fillRect(0, 0, w, h);
         // Tile the baked pixel nebulae. Nearest-neighbor scaling retains crisp pixels at any viewport.
         if (layers.nebulae.enabled) {

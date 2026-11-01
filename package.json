@@ -4,7 +4,9 @@
   "description": "Jogo arcade 2D estilo Jetpack Joyride com nave, disparos e visual cartoon.",
   "main": "game.js",
   "scripts": {
-    "dev": "npx -y http-server -p 8080 -o"
+    "dev": "node tools/dev-server.mjs",
+    "check": "node --check game-clock.js && node --check game-input.js && node --check game-accessibility.js && node --check game.js && node --check game-ui.js && node --check background.js && node --check entities.js && node --check sound.js && node --check sprite-renderer.js && node --check psd-assets.js && node --check tools/dev-server.mjs",
+    "test": "node --test"
   },
   "keywords": [
     "game",
@@ -16,5 +18,8 @@
     "cartoon"
   ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  }
 }
